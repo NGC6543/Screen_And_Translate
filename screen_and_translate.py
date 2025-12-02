@@ -2,8 +2,8 @@ import asyncio
 import json
 
 import easyocr
-from PIL import ImageGrab
 from googletrans import Translator
+from PIL import ImageGrab
 from PyMultiDictionary import MultiDictionary, DICT_EDUCALINGO
 
 from utils import dict_to_str
