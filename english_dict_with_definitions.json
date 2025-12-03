@@ -22,3 +22,73 @@
         ]
     ]
 }
+{
+    "mess": [
+        {
+            "имя существительное": "беспорядок, бардак, путаница",
+            "глагол": "обоссать, пачкать, грязнить"
+        },
+        [
+            "a dirty or untidy state of things or of a place.",
+            "make untidy or dirty."
+        ]
+    ]
+}
+{
+    "explanation": [
+        {
+            "имя существительное": "объяснение, разъяснение, толкование"
+        },
+        [
+            "a statement or account that makes something clear."
+        ]
+    ]
+}
+{
+    "change": [
+        {
+            "имя существительное": "изменение, перемена, смена",
+            "глагол": "изменять, менять, изменяться",
+            "имя прилагательное": "разменный"
+        },
+        [
+            "make (someone or something) different; alter or modify.",
+            "the act or instance of making or becoming different."
+        ]
+    ]
+}
+{
+    "value": [
+        {
+            "имя существительное": "значение, стоимость, ценность",
+            "глагол": "ценить, оценивать, дорожить"
+        },
+        [
+            "the regard that something is held to deserve; the importance, worth, or usefulness of something.",
+            "estimate the monetary worth of (something)."
+        ]
+    ]
+}
+{
+    "press": [
+        {
+            "имя существительное": "пресс, пресса, печать",
+            "глагол": "нажимать, давить, жать"
+        },
+        [
+            "move or cause to move into a position of contact with something by exerting continuous physical force.",
+            "a device for applying pressure to something in order to flatten or shape it or to extract juice or oil."
+        ]
+    ]
+}
+{
+    "represent": [
+        {
+            "глагол": "представлять, изображать, отражать",
+            "имя существительное": "представление"
+        },
+        [
+            "be entitled or appointed to act or speak for (someone), especially in an official capacity."
+        ]
+    ]
+}
