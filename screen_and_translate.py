@@ -28,7 +28,6 @@ def read_text_from_image(image_name: str) -> list[str]:
     "Recognize text from the image."
     reader = easyocr.Reader(['en'])
     text = reader.readtext(image_name, detail=0)
-    print('-----RECOGNITION PROCESS-----')
     return text
 
 
@@ -42,17 +41,27 @@ async def translate_text(text: str) -> tuple[str, dict, list] | None:
             result = await translator.translate(
                 text=text, dest='ru'
             )
-        extra = result.extra_data
-        all_translations = extra['all-translations']
+        extra: dict = result.extra_data
+
+        all_translations: list | None = extra.get('all-translations')
         if not all_translations:
+            # Temporary solution.
+            # What if word has translation in other language?
+            # I.e if we have extra['translation'] not None?
             return
+        # part_of_speech: translation_of_this_word
         limit_translations = {}
-        for translate in all_translations:
-            limit_translations[translate[0]] = ', '.join(translate[1][:3])
+        if all_translations:
+            for translate in all_translations:
+                limit_translations[translate[0]] = ', '.join(translate[1][:3])
+
         definitions = extra['definitions']
+        if not definitions:
+            return text, limit_translations, []
         limit_definitions = []
         for definition in definitions:
             limit_definitions.append(definition[1][0][0])
+
     return text, limit_translations, limit_definitions
 
 
@@ -82,14 +91,15 @@ def main(screenshot_name: str) -> str | None:
     if not get_image:
         return 'Its not an image'
     recognize_text = read_text_from_image(screenshot_name)
+    print('-----RECOGNITION PROCESS-----')
     if not recognize_text:
         return "There's not text."
     recognized_text = recognize_text[0]
+    print('-----RECOGNITION DONE-----')
     get_translate = asyncio.run(translate_text(recognized_text))
     if not get_translate:
         return 'Cannot translate this word.'
     text, translation, definition = get_translate
-    # print(translation, definition)
     adding_word_and_translate_to_file(text, translation, definition)
     print('Done')
 
@@ -118,7 +128,7 @@ def run_script(screenshot_name):
     while True:
         if user32.GetMessageW(ctypes.byref(msg), None, 0, 0) != 0:
             if msg.message == WM_HOTKEY:
-                main(screenshot_name)
+                print(main(screenshot_name))
         user32.TranslateMessage(ctypes.byref(msg))
         user32.DispatchMessageW(ctypes.byref(msg))
 

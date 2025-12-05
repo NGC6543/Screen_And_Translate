@@ -92,3 +92,175 @@
         ]
     ]
 }
+{
+    "wild": [
+        {
+            "имя прилагательное": "дикий, одичалый, безумный",
+            "наречие": "наугад, как попало"
+        },
+        [
+            "(of an animal or plant) living or growing in the natural environment; not domesticated or cultivated.",
+            "a natural state or uncultivated or uninhabited region."
+        ]
+    ]
+}
+{
+    "punctuating": [
+        {
+            "глагол": "перемежать, акцентировать, прерывать"
+        },
+        [
+            "insert punctuation marks in (text)."
+        ]
+    ]
+}
+{
+    "sultry": [
+        {
+            "имя прилагательное": "знойный, душный, страстный"
+        },
+        [
+            "(of the air or weather) hot and humid."
+        ]
+    ]
+}
+{
+    "rein": [
+        {
+            "имя существительное": "поводья, вожжи, повод",
+            "глагол": "сдерживать, управлять, держать в узде"
+        },
+        [
+            "a long, narrow strap attached at one end to a horse's bit, typically used in pairs to guide or check a horse while riding or driving.",
+            "check or guide (a horse) by pulling on its reins."
+        ]
+    ]
+}
+{
+    "virile": [
+        {
+            "имя прилагательное": "мужественный, мужской, зрелый"
+        },
+        [
+            "having strength, energy, and a strong sex drive (typically used of a man)."
+        ]
+    ]
+}
+{
+    "deprivation": [
+        {
+            "имя существительное": "лишение, потеря, отнятие"
+        },
+        [
+            "the damaging lack of material benefits considered to be basic necessities in a society."
+        ]
+    ]
+}
+{
+    "coalesce": [
+        {
+            "глагол": "объединяться, соединяться, срастаться"
+        },
+        [
+            "come together to form one mass or whole."
+        ]
+    ]
+}
+{
+    "dispense": [
+        {
+            "глагол": "распределять, раздавать, освобождать"
+        },
+        [
+            "distribute or provide (a service or information) to a number of people."
+        ]
+    ]
+}
+{
+    "volley": [
+        {
+            "имя существительное": "залп, град, поток",
+            "глагол": "стрелять залпом, испускать, сыпаться градом"
+        },
+        [
+            "a number of bullets, arrows, or other projectiles discharged at one time.",
+            "(in sports, especially tennis or soccer) strike or kick (the ball) before it touches the ground."
+        ]
+    ]
+}
+{
+    "audacious": [
+        {
+            "имя прилагательное": "смелый, дерзкий, наглый"
+        },
+        [
+            "showing a willingness to take surprisingly bold risks."
+        ]
+    ]
+}
+{
+    "deliriously": [
+        {
+            "наречие": "безумно, в бреду, исступленно"
+        },
+        []
+    ]
+}
+{
+    "dreg": [
+        {
+            "имя существительное": "отстой, осадок, муть"
+        },
+        []
+    ]
+}
+{
+    "toil": [
+        {
+            "глагол": "трудиться, маяться, усиленно трудиться",
+            "имя существительное": "тяжелый труд, работа, тяжелая работа"
+        },
+        [
+            "work extremely hard or incessantly.",
+            "exhausting physical labor."
+        ]
+    ]
+}
+{
+    "poke": [
+        {
+            "глагол": "тыкать, совать, толкать",
+            "имя существительное": "тычок, толчок, мешок"
+        },
+        [
+            "jab or prod (someone or something), especially with one's finger.",
+            "an act of poking someone or something."
+        ]
+    ]
+}
+{
+    "prod": [
+        {
+            "глагол": "тыкать, колоть, подгонять",
+            "имя существительное": "тычок, толчок, шило"
+        },
+        [
+            "poke (someone) with a finger, foot, or pointed object.",
+            "a poke with a finger, foot, or pointed object.",
+            "produce."
+        ]
+    ]
+}
+
+{
+    "text": [
+        {
+            "имя существительное": "текст, тема, оригинал",
+            "глагол": "писать крупным почерком"
+        },
+        [
+            "a book or other written or printed work, regarded in terms of its content rather than its physical form.",
+            "send a text message to."
+        ]
+    ]
+}
