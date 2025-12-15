@@ -6,6 +6,7 @@ import ctypes.wintypes as wt
 import easyocr
 from googletrans import Translator
 from PIL import ImageGrab
+from PIL.Image import Image
 
 from utils import dict_to_str
 
@@ -13,11 +14,13 @@ from utils import dict_to_str
 FILE_ONLY_TRANSLATION = 'english_base_dictionary.txt'
 FILE_FULL_TRANSLATION = 'english_dict_with_definitions.json'
 
+reader = easyocr.Reader(['en'])
+
 
 def extract_image(image_name: str) -> bool:
     "Get image (screenshot) from clipboard."
     im = ImageGrab.grabclipboard()
-    if im:
+    if isinstance(im, Image):
         im.save(image_name, 'PNG')
         return True
     else:
@@ -26,7 +29,6 @@ def extract_image(image_name: str) -> bool:
 
 def read_text_from_image(image_name: str) -> list[str]:
     "Recognize text from the image."
-    reader = easyocr.Reader(['en'])
     text = reader.readtext(image_name, detail=0)
     return text
 
@@ -45,7 +47,7 @@ async def translate_text(text: str) -> tuple[str, dict, list | None] | None:
         all_translations: list | None = extra.get('all-translations')
 
         if not all_translations:
-            return text, result.text, None
+            return text, {text: result.text}, []
 
         limit_translations = {}  # part_of_speech: translation_of_this_word
         if all_translations:
@@ -63,18 +65,13 @@ async def translate_text(text: str) -> tuple[str, dict, list | None] | None:
     return text, limit_translations, limit_definitions
 
 
-def adding_word_and_translate_to_file(
-        text: str, translate: dict | str, definition: list | None = None
+def save_translation(
+        text: str, translate: dict, definition: list | None = None
 ):
-    "Save recieved data into files."
+    "Save received data into files."
     text = text.lower()
 
-    get_str_view = ''
-    if isinstance(translate, str):
-        get_str_view = translate
-    if isinstance(translate, dict):
-        get_str_view: str = dict_to_str(translate)
-
+    get_str_view: str = dict_to_str(translate)
     result_string = f'{text} -- {get_str_view}'
 
     # Save into txt file
@@ -100,11 +97,11 @@ def main(screenshot_name: str) -> str | None:
         return "There's not text."
     recognized_text = recognize_text[0]
     print('-----RECOGNITION DONE-----')
-    get_translate = asyncio.run(translate_text(recognized_text))
-    if not get_translate:
+    translation_result = asyncio.run(translate_text(recognized_text))
+    if not translation_result:
         return 'Cannot translate this word.'
-    text, translation, definition = get_translate
-    adding_word_and_translate_to_file(text, translation, definition)
+    text, translation, definition = translation_result
+    save_translation(text, translation, definition)
 
     return 'Done'
 
@@ -130,12 +127,17 @@ def run_script(screenshot_name):
     msg = wt.MSG()
 
     print('Script runs')
-    while True:
-        if user32.GetMessageW(ctypes.byref(msg), None, 0, 0) != 0:
-            if msg.message == WM_HOTKEY:
-                print(main(screenshot_name))
-        user32.TranslateMessage(ctypes.byref(msg))
-        user32.DispatchMessageW(ctypes.byref(msg))
+    try:
+        while True:
+            if user32.GetMessageW(ctypes.byref(msg), None, 0, 0) != 0:
+                if msg.message == WM_HOTKEY:
+                    print(main(screenshot_name))
+
+                user32.TranslateMessage(ctypes.byref(msg))
+                user32.DispatchMessageW(ctypes.byref(msg))
+    finally:
+        user32.UnregisterHotKey(None, 1)
+        print("Hotkey unregistered")
 
 
 if __name__ == '__main__':
