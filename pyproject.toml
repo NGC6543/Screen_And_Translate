@@ -1,0 +1,11 @@
+[project]
+name = "screenshot-word"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12.8"
+dependencies = [
+    "easyocr==1.7.2",
+    "googletrans==4.0.2",
+    "pillow==12.0.0",
+]

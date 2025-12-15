@@ -31,7 +31,7 @@ def read_text_from_image(image_name: str) -> list[str]:
     return text
 
 
-async def translate_text(text: str) -> tuple[str, dict, list] | None:
+async def translate_text(text: str) -> tuple[str, dict, list | None] | None:
     "Get translate of the word from the text."
     async with Translator() as translator:
         result = await translator.translate(text=text, dest='ru')
@@ -42,15 +42,12 @@ async def translate_text(text: str) -> tuple[str, dict, list] | None:
                 text=text, dest='ru'
             )
         extra: dict = result.extra_data
-
         all_translations: list | None = extra.get('all-translations')
+
         if not all_translations:
-            # Temporary solution.
-            # What if word has translation in other language?
-            # I.e if we have extra['translation'] not None?
-            return
-        # part_of_speech: translation_of_this_word
-        limit_translations = {}
+            return text, result.text, None
+
+        limit_translations = {}  # part_of_speech: translation_of_this_word
         if all_translations:
             for translate in all_translations:
                 limit_translations[translate[0]] = ', '.join(translate[1][:3])
@@ -58,6 +55,7 @@ async def translate_text(text: str) -> tuple[str, dict, list] | None:
         definitions = extra['definitions']
         if not definitions:
             return text, limit_translations, []
+
         limit_definitions = []
         for definition in definitions:
             limit_definitions.append(definition[1][0][0])
@@ -66,12 +64,18 @@ async def translate_text(text: str) -> tuple[str, dict, list] | None:
 
 
 def adding_word_and_translate_to_file(
-        text: str, translate: dict, definition: list
+        text: str, translate: dict | str, definition: list | None = None
 ):
     "Save recieved data into files."
     text = text.lower()
-    return_str_from_dict: str = dict_to_str(translate)
-    result_string = f'{text} -- {return_str_from_dict}'
+
+    get_str_view = ''
+    if isinstance(translate, str):
+        get_str_view = translate
+    if isinstance(translate, dict):
+        get_str_view: str = dict_to_str(translate)
+
+    result_string = f'{text} -- {get_str_view}'
 
     # Save into txt file
     with open(FILE_ONLY_TRANSLATION, mode='a', encoding='utf-8') as file:
@@ -101,7 +105,8 @@ def main(screenshot_name: str) -> str | None:
         return 'Cannot translate this word.'
     text, translation, definition = get_translate
     adding_word_and_translate_to_file(text, translation, definition)
-    print('Done')
+
+    return 'Done'
 
 
 def run_script(screenshot_name):
@@ -135,5 +140,5 @@ def run_script(screenshot_name):
 
 if __name__ == '__main__':
     screenshot_name = 'base_word.png'
-    # main(screenshot_name)
+    main(screenshot_name)
     run_script(screenshot_name)
