@@ -49,16 +49,16 @@ async def translate_text(text: str) -> tuple[str, dict, list | None] | None:
         if not all_translations:
             return text, {text: result.text}, []
 
-        limit_translations = {}  # part_of_speech: translation_of_this_word
+        limit_translations: dict[str, str] = {}  # part_of_speech: translation_of_this_word
         if all_translations:
             for translate in all_translations:
                 limit_translations[translate[0]] = ', '.join(translate[1][:3])
 
-        definitions = extra['definitions']
+        definitions: list = extra['definitions']
         if not definitions:
             return text, limit_translations, []
 
-        limit_definitions = []
+        limit_definitions: list[str] = []
         for definition in definitions:
             limit_definitions.append(definition[1][0][0])
 
@@ -69,7 +69,7 @@ def save_translation(
         text: str, translate: dict, definition: list | None = None
 ):
     "Save received data into files."
-    text = text.lower()
+    text: str = text.lower()
 
     get_str_view: str = dict_to_str(translate)
     result_string = f'{text} -- {get_str_view}'
@@ -88,18 +88,21 @@ def save_translation(
 
 def main(screenshot_name: str) -> str | None:
     "Handle all events and return error message if needed."
-    get_image = extract_image(screenshot_name)
+    get_image: bool = extract_image(screenshot_name)
     if not get_image:
         return 'Its not an image'
-    recognize_text = read_text_from_image(screenshot_name)
+
+    recognize_text: list[str] = read_text_from_image(screenshot_name)
     print('-----RECOGNITION PROCESS-----')
     if not recognize_text:
         return "There's not text."
+
     recognized_text = recognize_text[0]
     print('-----RECOGNITION DONE-----')
     translation_result = asyncio.run(translate_text(recognized_text))
     if not translation_result:
         return 'Cannot translate this word.'
+
     text, translation, definition = translation_result
     save_translation(text, translation, definition)
 
@@ -122,7 +125,7 @@ def run_script(screenshot_name):
 
     # Register hotkey: CTRL + ALT + Q
     if not user32.RegisterHotKey(None, 1, MOD_CONTROL | MOD_ALT, VK_Q):
-        print("Failed to register hotkey")
+        print('Failed to register hotkey')
 
     msg = wt.MSG()
 
@@ -137,7 +140,7 @@ def run_script(screenshot_name):
                 user32.DispatchMessageW(ctypes.byref(msg))
     finally:
         user32.UnregisterHotKey(None, 1)
-        print("Hotkey unregistered")
+        print('Hotkey unregistered')
 
 
 if __name__ == '__main__':
